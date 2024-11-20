@@ -12,6 +12,7 @@ function App() {
           position: [-1, 1, 5],
           fov: 45,
         }}
+        shadows
       >
         <color attach="background" args={["#555"]} />
         <fog attach="fog" args={["#555", 15, 25]} />

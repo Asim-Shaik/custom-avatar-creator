@@ -1,12 +1,28 @@
 import React from "react";
 import { Avatar } from "./Avatar";
-import { Environment, OrbitControls } from "@react-three/drei";
+import {
+  Backdrop,
+  Environment,
+  OrbitControls,
+  SoftShadows,
+} from "@react-three/drei";
 
 const Experience = () => {
   return (
     <>
-      <OrbitControls />
+      <OrbitControls
+        minPolarAngle={Math.PI / 4}
+        maxPolarAngle={Math.PI / 2}
+        minAzimuthAngle={-Math.PI / 4}
+        maxAzimuthAngle={Math.PI / 4}
+      />
       <Environment preset="sunset" environmentIntensity={0.3} />
+      <Backdrop scale={[50, 10, 5]} floor={1.5} receiveShadow position-z={-4}>
+        <meshStandardMaterial color="#555" />
+      </Backdrop>
+
+      <SoftShadows size={52} samples={16} />
+
       <directionalLight
         position={[5, 5, 5]}
         intensity={2.2}
