@@ -13,10 +13,12 @@
     "@react-three/fiber": "^8.17.10",
     "@types/three": "^0.170.0",
     "autoprefixer": "^10.4.20",
+    "pocketbase": "^0.21.5",
     "postcss": "^8.4.49",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "three": "^0.170.0"
+    "three": "^0.170.0",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.3.12",
