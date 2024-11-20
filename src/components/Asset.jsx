@@ -6,6 +6,7 @@ export const Asset = ({ url, categoryName, skeleton }) => {
   const { scene } = useGLTF(url);
 
   const customization = useConfiguratorStore((state) => state.customization);
+  const lockedGroups = useConfiguratorStore((state) => state.lockedGroups);
 
   const assetColor = customization[categoryName].color;
 
@@ -39,6 +40,10 @@ export const Asset = ({ url, categoryName, skeleton }) => {
     });
     return items;
   }, [scene]);
+
+  if (lockedGroups[categoryName]) {
+    return null;
+  }
 
   //   console.log(attachedItems);
   return attachedItems.map((item, index) => (

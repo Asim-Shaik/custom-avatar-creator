@@ -46,6 +46,7 @@ const AssetsBox = () => {
     setCurrentCategory,
     changeAsset,
     customization,
+    lockedGroups,
   } = useConfiguratorStore();
 
   //   console.log(customization);
@@ -72,6 +73,14 @@ const AssetsBox = () => {
           </button>
         ))}
       </div>
+      {lockedGroups[currentCategory?.name] && (
+        <p className="text-red-400 px-6">
+          Asset is hidden by{" "}
+          {lockedGroups[currentCategory.name]
+            .map((asset) => `${asset.name} (${asset.categoryName})`)
+            .join(", ")}
+        </p>
+      )}
       <div className="flex gap-2 overflow-x-auto noscrollbar px-6 ">
         {currentCategory?.removable && (
           <button
@@ -108,12 +117,12 @@ const AssetsBox = () => {
             <button
               key={asset.thumbnail}
               onClick={() => changeAsset(currentCategory.name, asset)}
-              className={`w-20 h-20 rounded-md overflow-hidden bg-gray-200 pointer-events-auto hover:opacity-100 transition-all border-2 duration-500 
+              className={`w-20 h-20 rounded-xl overflow-hidden bg-gray-200 pointer-events-auto hover:opacity-100 transition-all border-2 duration-300 bg-gradient-to-tr 
                         ${
                           customization[currentCategory.name]?.asset?.id ===
                           asset.id
-                            ? "border-indigo-600 opacity-100"
-                            : "opacity-80 border-transparent"
+                            ? "border-white from-white/70 to-white/30"
+                            : "from-black/70 to-black/2 border-black"
                         }
             `}
             >

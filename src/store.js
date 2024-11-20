@@ -15,6 +15,7 @@ export const useConfiguratorStore = create((set, get) => ({
   categories: [],
   currentCategory: null,
   assets: [],
+  lockedGroups: {},
   customization: {},
   download: () => {},
   setDownload: (download) => set({ download }),
@@ -64,9 +65,10 @@ export const useConfiguratorStore = create((set, get) => ({
     });
 
     set({ categories, currentCategory: categories[0], assets, customization });
+    get().applyLockedAssets();
   },
   setCurrentCategory: (category) => set({ currentCategory: category }),
-  changeAsset: (category, asset) =>
+  changeAsset: (category, asset) => {
     set((state) => ({
       customization: {
         ...state.customization,
@@ -76,7 +78,9 @@ export const useConfiguratorStore = create((set, get) => ({
           asset,
         },
       },
-    })),
+    }));
+    get().applyLockedAssets();
+  },
   randomize: () => {
     const customization = {};
     get().categories.forEach((category) => {
@@ -99,5 +103,34 @@ export const useConfiguratorStore = create((set, get) => ({
       }
     });
     set({ customization });
+    get().applyLockedAssets();
+  },
+
+  applyLockedAssets: () => {
+    const customization = get().customization;
+    const categories = get().categories;
+    const lockedGroups = {};
+
+    Object.values(customization).forEach((category) => {
+      if (category.asset?.lockedGroups) {
+        category.asset.lockedGroups.forEach((group) => {
+          const categoryName = categories.find(
+            (category) => category.id === group
+          ).name;
+          if (!lockedGroups[categoryName]) {
+            lockedGroups[categoryName] = [];
+          }
+          const lockingAssetCategoryName = categories.find(
+            (cat) => cat.id === category.asset.group
+          ).name;
+          lockedGroups[categoryName].push({
+            name: category.asset.name,
+            categoryName: lockingAssetCategoryName,
+          });
+        });
+      }
+    });
+
+    set({ lockedGroups });
   },
 }));
